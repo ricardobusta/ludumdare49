@@ -390,12 +390,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {fileID: 2924389419353122773}
   headTransform: {fileID: 2924389419325175913}
-  interactiveLayer:
+  interactiveLayerMask:
     serializedVersion: 2
     m_Bits: 1
-  holdingLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  interactiveLayer: 0
+  holdingLayer: 6
   handTransform: {fileID: 2924389419691465208}
 --- !u!1 &2924389419456883630
 GameObject:

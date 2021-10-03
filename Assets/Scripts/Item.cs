@@ -24,11 +24,11 @@ public class Item : MonoBehaviour
         tr.localPosition = Vector3.zero;
         tr.localRotation = Quaternion.identity;
         tr.localScale = Vector3.one;
-        // tr.gameObject.layer = layer;
-        // foreach (var r in GetComponentsInChildren<Renderer>(includeInactive: true))
-        // {
-        //     r.gameObject.layer = layer;
-        // }
+        tr.gameObject.layer = layer;
+        foreach (var r in GetComponentsInChildren<Renderer>(includeInactive: true))
+        {
+            r.gameObject.layer = layer;
+        }
     }
 
     public Color GetColor()

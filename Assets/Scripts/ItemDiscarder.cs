@@ -11,7 +11,7 @@ namespace DefaultNamespace
                 return;
             }
 
-            var item = controller.RemoveHoldingItem();
+            var item = controller.RemoveHoldingItem(null);
             Destroy(item.gameObject);
         }
     }
