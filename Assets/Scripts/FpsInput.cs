@@ -89,6 +89,16 @@ public class FpsInput : MonoBehaviour
         return Input.GetButtonDown("Jump");
     }
 
+    public bool GetSprint()
+    {
+        if (locked)
+        {
+            return false;
+        }
+
+        return Input.GetButton("Fire3");
+    }
+
     public Vector3 GetMove()
     {
         if (locked)
@@ -98,5 +108,15 @@ public class FpsInput : MonoBehaviour
 
         return Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")),
             maxMovementSize); // Clamp to avoid moving faster on diagonal
+    }
+
+    public bool GetInteract()
+    {
+        if (locked)
+        {
+            return false;
+        }
+
+        return Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E);
     }
 }
