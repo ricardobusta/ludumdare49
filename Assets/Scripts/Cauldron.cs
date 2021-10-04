@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -15,6 +16,12 @@ public class Cauldron : InteractiveObject
 
     [SerializeField] private MeshRenderer cauldronSoup;
 
+    [SerializeField] private Canvas gameCanvas;
+    [SerializeField] private Canvas gameOverCanvas;
+
+    [SerializeField] private Button menuButton;
+
+    [SerializeField] private TMP_Text resultText;
 
     [SerializeField] private Image stabilityBar;
     [SerializeField] private TMP_Text levelLabel;
@@ -64,13 +71,33 @@ public class Cauldron : InteractiveObject
 
     private void Start()
     {
+        gameCanvas.gameObject.SetActive(true);
+        gameOverCanvas.gameObject.SetActive(false);
         _cauldronSoupMaterial = new Material(cauldronSoup.material);
         cauldronSoup.material = _cauldronSoupMaterial;
         SetLevel(1);
+
+        menuButton.onClick.AddListener(() => { SceneManager.LoadScene("Title"); });
     }
 
     private void Update()
     {
+        if (input.locked)
+        {
+            return;
+        }
+        
+        if (stability <= 0)
+        {
+            gameCanvas.gameObject.SetActive(false);
+            gameOverCanvas.gameObject.SetActive(true);
+            input.locked = true;
+            resultText.text = $"Congratulations! You reached level {level}!";
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+
         stability -= level * unstableSpeed * Time.deltaTime;
         stability = Mathf.Clamp01(stability);
         stabilityBar.fillAmount = stability;
@@ -79,6 +106,10 @@ public class Cauldron : InteractiveObject
         if (Input.GetKeyDown(KeyCode.F1))
         {
             SetLevel(level + 1);
+            stability = 1;
+        }else if (Input.GetKeyDown(KeyCode.F2))
+        {
+            SetLevel(level + 10);
             stability = 1;
         }
 #endif
@@ -94,12 +125,13 @@ public class Cauldron : InteractiveObject
         }
         else
         {
-            float RandomValue(int steps, int min=0)
+            float RandomValue(int steps, int min = 0)
             {
-                return Random.Range(min, steps) / (float)(steps-1);
+                return Random.Range(min, steps) / (float) (steps - 1);
             }
 
-            _targetColor = new CmykColor {c = RandomValue(5), m = RandomValue(5), y = RandomValue(5), k = 0, a = RandomValue(3,1)};
+            _targetColor = new CmykColor
+                {c = RandomValue(5), m = RandomValue(5), y = RandomValue(5), k = 0, a = RandomValue(3, 1)};
         }
 
         levelLabel.text = $"Cauldron Stability - Level {level}\nTarget: {_targetColor}";
@@ -135,12 +167,6 @@ public class Cauldron : InteractiveObject
             {
                 stability -= wrongDamage;
             }
-        }
-
-        if (stability <= 0)
-        {
-            // Game Over
-            input.locked = true;
         }
     }
 }
