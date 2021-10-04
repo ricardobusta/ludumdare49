@@ -93,12 +93,12 @@ public class Cauldron : InteractiveObject
         }
         else
         {
-            float RandomValue()
+            float RandomValue(int min=0)
             {
-                return Random.Range(0, 3) / 2f;
+                return Random.Range(min, 3) / 2f;
             }
 
-            _targetColor = new CmykColor {c = RandomValue(), m = RandomValue(), y = RandomValue(), k = 0, a = RandomValue()};
+            _targetColor = new CmykColor {c = RandomValue(), m = RandomValue(), y = RandomValue(), k = 0, a = RandomValue(1)};
         }
 
         levelLabel.text = $"Cauldron Stability - Level {level}\nTarget: {_targetColor}";
