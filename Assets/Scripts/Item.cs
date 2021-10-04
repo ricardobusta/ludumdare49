@@ -1,20 +1,18 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace;
+using UnityEngine;
 
 public class Item : MonoBehaviour
 {
     [SerializeField] private Material materialPrefab;
-    [SerializeField] private MeshRenderer renderer;
+    [SerializeField] private new MeshRenderer renderer;
+    public ItemType type;
 
-    public float c;
-    public float m;
-    public float y;
-    public float k;
-    public float a;
+    public CmykColor color;
 
     private void Start()
     {
         renderer.material = new Material(materialPrefab);
-        SetColor(c, m, y, k, a);
+        SetColor(color);
     }
 
     public void SetParent(Transform parent, int layer)
@@ -31,20 +29,22 @@ public class Item : MonoBehaviour
         }
     }
 
-    public Color GetColor()
+    public Color GetRgb()
     {
-        var invK = 1 - k;
-        return new Color((1 - c) * invK, (1 - m) * invK, (1 - y) * invK, a);
+        var invK = 1 - color.k;
+        return new Color((1 - color.c) * invK, (1 - color.m) * invK, (1 - color.y) * invK, color.a);
     }
 
-    public void SetColor(float c, float m, float y, float k, float a)
+    public void SetColor(CmykColor color)
     {
-        this.c = c;
-        this.m = m;
-        this.y = y;
-        this.k = k;
-        this.a = a;
+        this.color = color;
+        renderer.material.color = GetRgb();
+    }
 
-        renderer.material.color = GetColor();
+    public enum ItemType
+    {
+        Ingredient,
+        Potion,
+        Flask
     }
 }

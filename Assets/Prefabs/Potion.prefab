@@ -128,11 +128,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materialPrefab: {fileID: 2100000, guid: 88658fed44af40c4497c15e1513da6a5, type: 2}
   renderer: {fileID: 3449561146875900707}
-  c: 0
-  m: 0
-  y: 0
-  k: 0
-  a: 0
+  type: 1
+  color:
+    c: 0
+    m: 0
+    y: 0
+    k: 0
+    a: 0
 --- !u!1 &5747753336262617404
 GameObject:
   m_ObjectHideFlags: 0
