@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
@@ -9,10 +10,13 @@ public class HandController : MonoBehaviour
     [SerializeField] private int holdingLayer;
     [SerializeField] private Transform handTransform;
     [SerializeField] private MeshRenderer crosshair;
+    [SerializeField] private TMP_Text nameDisplay;
+    [SerializeField] private TMP_Text descriptionDisplay;
 
     private Item _holdingItem;
     private Material _crossHairMaterial;
     private bool _hadTargetSet;
+    private InteractiveObject _lastInteractedObject;
 
     private void Start()
     {
@@ -50,6 +54,14 @@ public class HandController : MonoBehaviour
             {
                 _hadTargetSet = true;
                 _crossHairMaterial.color = Color.yellow;
+
+                if (interactive != _lastInteractedObject)
+                {
+                    _lastInteractedObject = interactive;
+                    descriptionDisplay.text = interactive.objectDescription;
+                    nameDisplay.text = interactive.objectName;
+                }
+
                 if (input.GetInteract())
                 {
                     interactive.Interact(this);
@@ -62,7 +74,10 @@ public class HandController : MonoBehaviour
         if (_hadTargetSet)
         {
             _hadTargetSet = false;
+            descriptionDisplay.text = string.Empty;
+            nameDisplay.text = string.Empty;
             _crossHairMaterial.color = Color.gray;
+            _lastInteractedObject = null;
         }
     }
 }
