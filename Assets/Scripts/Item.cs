@@ -1,18 +1,25 @@
-﻿using DefaultNamespace;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : InteractiveObject
 {
     [SerializeField] private Material materialPrefab;
     [SerializeField] private new MeshRenderer renderer;
     public ItemType type;
 
     public CmykColor color;
+    public InteractiveObject holder;
 
     private void Start()
     {
         renderer.material = new Material(materialPrefab);
-        SetColor(color);
+        if (type == ItemType.Potion || type == ItemType.Flask)
+        {
+            SetPotion(color);
+        }
+        else
+        {
+            SetColor(color);
+        }
     }
 
     public void SetParent(Transform parent, int layer)
@@ -29,16 +36,27 @@ public class Item : MonoBehaviour
         }
     }
 
-    public Color GetRgb()
+    public void SetPotion(CmykColor newColor)
     {
-        var invK = 1 - color.k;
-        return new Color((1 - color.c) * invK, (1 - color.m) * invK, (1 - color.y) * invK, color.a);
+        SetColor(newColor);
+        if (newColor.a == 0)
+        {
+            type = ItemType.Flask;
+            objectName = "Flask";
+            objectDescription = "Empty bottle that can be filled with liquid.";
+        }
+        else
+        {
+            type = ItemType.Potion;
+            objectName = "Potion";
+            objectDescription = $"Color {newColor}";
+        }
     }
 
-    public void SetColor(CmykColor color)
+    public void SetColor(CmykColor newColor)
     {
-        this.color = color;
-        renderer.material.color = GetRgb();
+        this.color = newColor;
+        renderer.material.color = newColor.ToRgba();
     }
 
     public enum ItemType
@@ -46,5 +64,10 @@ public class Item : MonoBehaviour
         Ingredient,
         Potion,
         Flask
+    }
+
+    public override void Interact(HandController controller)
+    {
+        holder.Interact(controller);
     }
 }

@@ -22,11 +22,18 @@ public class HandController : MonoBehaviour
     {
         _crossHairMaterial = new Material(crosshair.material);
         crosshair.material = _crossHairMaterial;
+        nameDisplay.text = string.Empty;
+        descriptionDisplay.text = string.Empty;
     }
 
     public bool HasHoldingItem()
     {
         return _holdingItem != null;
+    }
+
+    public bool HasHoldingItem(Item.ItemType type)
+    {
+        return HasHoldingItem() && _holdingItem.type == type;
     }
 
     public Item RemoveHoldingItem(Transform newParent)
@@ -41,6 +48,20 @@ public class HandController : MonoBehaviour
     {
         _holdingItem = newItem;
         newItem.SetParent(handTransform, holdingLayer);
+    }
+
+    public void UpdateText(InteractiveObject interactive)
+    {
+        if (interactive == null)
+        {
+            descriptionDisplay.text = string.Empty;
+            nameDisplay.text = string.Empty;
+        }
+        else
+        {
+            descriptionDisplay.text = interactive.objectDescription;
+            nameDisplay.text = interactive.objectName;
+        }
     }
 
     private void Update()
@@ -58,8 +79,7 @@ public class HandController : MonoBehaviour
                 if (interactive != _lastInteractedObject)
                 {
                     _lastInteractedObject = interactive;
-                    descriptionDisplay.text = interactive.objectDescription;
-                    nameDisplay.text = interactive.objectName;
+                    UpdateText(interactive);
                 }
 
                 if (input.GetInteract())
@@ -74,8 +94,7 @@ public class HandController : MonoBehaviour
         if (_hadTargetSet)
         {
             _hadTargetSet = false;
-            descriptionDisplay.text = string.Empty;
-            nameDisplay.text = string.Empty;
+            UpdateText(null);
             _crossHairMaterial.color = Color.gray;
             _lastInteractedObject = null;
         }

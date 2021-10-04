@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5184067356750075321}
   - component: {fileID: 388948781521564894}
+  - component: {fileID: 2220532398138509606}
   m_Layer: 0
   m_Name: Potion
   m_TagString: Untagged
@@ -135,6 +136,19 @@ MonoBehaviour:
     y: 0
     k: 0
     a: 0
+--- !u!65 &2220532398138509606
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5528820999408652035}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.41920468, y: 0.589378, z: 0.4241614}
+  m_Center: {x: 0, y: 0.31133062, z: 0}
 --- !u!1 &5747753336262617404
 GameObject:
   m_ObjectHideFlags: 0

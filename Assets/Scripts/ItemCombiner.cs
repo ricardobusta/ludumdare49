@@ -41,8 +41,8 @@ public class ItemCombiner : InteractiveObject
     {
         if (combinerA.HasHoldingItem(Item.ItemType.Ingredient) && combinerB.HasHoldingItem(Item.ItemType.Flask))
         {
-            combinerB.SpawnItem(potionPrefab).SetColor(combinerA.holdingItem.color);
-
+            combinerB.SpawnItem(potionPrefab).SetPotion(combinerA.holdingItem.color);
+            combinerB.UpdateText();
             combinerA.ClearItem();
         }
     }
@@ -62,9 +62,11 @@ public class ItemCombiner : InteractiveObject
                 k = c1.k * c1.a + c2.k * c2.a,
                 a = Mathf.Clamp01(c1.a + c2.a)
             };
-            
-            combinerA.holdingItem.SetColor(c);
-            combinerB.holdingItem.SetColor(c);
+
+            combinerA.holdingItem.SetPotion(c);
+            combinerA.UpdateText();
+            combinerB.holdingItem.SetPotion(new CmykColor());
+            combinerB.UpdateText();
         }
     }
 
@@ -74,8 +76,9 @@ public class ItemCombiner : InteractiveObject
         {
             var c = combinerA.holdingItem.color;
             c.a = 0.5f;
-            
-            combinerA.holdingItem.SetColor(c);
+
+            combinerA.holdingItem.SetPotion(c);
+            combinerA.UpdateText();
         }
     }
 
@@ -85,8 +88,9 @@ public class ItemCombiner : InteractiveObject
         {
             var c = combinerA.holdingItem.color;
             c.a = 1;
-            
-            combinerA.holdingItem.SetColor(c);
+
+            combinerA.holdingItem.SetPotion(c);
+            combinerA.UpdateText();
         }
     }
 }

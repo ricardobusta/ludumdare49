@@ -20,7 +20,23 @@ public class ItemHolder : InteractiveObject
     {
         if (holdingItem != null)
         {
+            objectDescription = string.Empty;
+            objectName = string.Empty;
             Destroy(holdingItem.gameObject);
+        }
+    }
+
+    public void UpdateText()
+    {
+        if (holdingItem == null)
+        {
+            objectDescription = string.Empty;
+            objectName = string.Empty;
+        }
+        else
+        {
+            objectDescription = holdingItem.objectDescription;
+            objectName = holdingItem.objectName;
         }
     }
 
@@ -42,12 +58,18 @@ public class ItemHolder : InteractiveObject
         var isHandItem = controller.HasHoldingItem();
         if (isHoldingItem && !isHandItem)
         {
+            holdingItem.holder = null;
             controller.SetHoldingItem(holdingItem);
             holdingItem = null;
+            controller.UpdateText(holdingItem);
+            UpdateText();
         }
         else if (!isHoldingItem && isHandItem)
         {
             holdingItem = controller.RemoveHoldingItem(holderPosition);
+            holdingItem.holder = this;
+            controller.UpdateText(holdingItem);
+            UpdateText();
         }
     }
 }
