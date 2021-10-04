@@ -28,6 +28,8 @@ public class Cauldron : InteractiveObject
             new CmykColor {c = 1, m = 0, y = 0, k = 0, a = 1},
             new CmykColor {c = 0, m = 1, y = 0, k = 0, a = 1},
             new CmykColor {c = 0, m = 0, y = 1, k = 0, a = 1},
+            new CmykColor {c = 0, m = 0, y = 0, k = 1, a = 1},
+            new CmykColor {c = 0, m = 0, y = 0, k = 0, a = 1},
         },
         [2] = new List<CmykColor>
         {
@@ -38,24 +40,23 @@ public class Cauldron : InteractiveObject
         },
         [3] = new List<CmykColor>
         {
-            new CmykColor {c = 0, m = 0, y = 0, k = 1, a = 1},
-            new CmykColor {c = 0, m = 0, y = 0, k = 0, a = 1},
-        },
-        [4] = new List<CmykColor>
-        {
             new CmykColor {c = 1, m = 0, y = 0, k = 0, a = .5f},
             new CmykColor {c = 0, m = 1, y = 0, k = 0, a = .5f},
             new CmykColor {c = 0, m = 0, y = 1, k = 0, a = .5f},
             new CmykColor {c = 0, m = 0, y = 0, k = 1, a = .5f},
             new CmykColor {c = 0, m = 0, y = 0, k = 0, a = .5f},
-        },
-        [5] = new List<CmykColor>
-        {
             new CmykColor {c = 1, m = 1, y = 0, k = 0, a = .5f},
             new CmykColor {c = 0, m = 1, y = 1, k = 0, a = .5f},
             new CmykColor {c = 1, m = 0, y = 1, k = 0, a = .5f},
             new CmykColor {c = 1, m = 1, y = 1, k = 0, a = .5f},
-        }
+        },
+        [3] = new List<CmykColor>
+        {
+            new CmykColor {c = .5f, m = 0, y = 0, k = 0, a = 1},
+            new CmykColor {c = 0, m = .5f, y = 0, k = 0, a = 1},
+            new CmykColor {c = 0, m = 0, y = .5f, k = 0, a = 1},
+            new CmykColor {c = 0, m = 0, y = 0, k = .5f, a = 1},
+        },
     };
 
     private CmykColor _targetColor;
@@ -93,12 +94,12 @@ public class Cauldron : InteractiveObject
         }
         else
         {
-            float RandomValue(int min=0)
+            float RandomValue(int steps, int min=0)
             {
-                return Random.Range(min, 3) / 2f;
+                return Random.Range(min, steps) / (float)(steps-1);
             }
 
-            _targetColor = new CmykColor {c = RandomValue(), m = RandomValue(), y = RandomValue(), k = 0, a = RandomValue(1)};
+            _targetColor = new CmykColor {c = RandomValue(5), m = RandomValue(5), y = RandomValue(5), k = 0, a = RandomValue(3,1)};
         }
 
         levelLabel.text = $"Cauldron Stability - Level {level}\nTarget: {_targetColor}";
