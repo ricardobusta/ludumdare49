@@ -12,6 +12,8 @@ public class HandController : MonoBehaviour
     [SerializeField] private MeshRenderer crosshair;
     [SerializeField] private TMP_Text nameDisplay;
     [SerializeField] private TMP_Text descriptionDisplay;
+    [SerializeField] private float interactDistance = 4f;
+    
 
     private Item _holdingItem;
     private Material _crossHairMaterial;
@@ -66,8 +68,8 @@ public class HandController : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawRay(headTransform.position, headTransform.forward * 3);
-        if (Physics.Raycast(headTransform.position, headTransform.forward, out var hit, 3, interactiveLayerMask,
+        Debug.DrawRay(headTransform.position, headTransform.forward * interactDistance);
+        if (Physics.Raycast(headTransform.position, headTransform.forward, out var hit, interactDistance, interactiveLayerMask,
             QueryTriggerInteraction.Ignore))
         {
             var interactive = hit.collider.GetComponent<InteractiveObject>();
